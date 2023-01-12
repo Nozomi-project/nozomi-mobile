@@ -99,7 +99,7 @@ class _ProductsListItem extends StatelessWidget {
           ),
           Padding(
             padding:
-                const EdgeInsets.only(top: 12, left: 12, right: 2, bottom: 2),
+                const EdgeInsets.only(top: 12, left: 12, right: 8, bottom: 2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,6 +113,8 @@ class _ProductsListItem extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2!.copyWith(
                             color: AppColors.grey.shade50,
                           ),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(
                       height: 4,
@@ -145,7 +147,7 @@ class _ProductsListItem extends StatelessWidget {
                             );
                           },
                         );
-                        if (productAdded!) {
+                        if (productAdded != null && productAdded) {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

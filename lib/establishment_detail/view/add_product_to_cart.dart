@@ -49,10 +49,15 @@ class _AddToCart extends State<AddToCart> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget._product.name,
-                style: Theme.of(context).textTheme.headline1,
+              Expanded(
+                child: Text(
+                  widget._product.name,
+                  style: Theme.of(context).textTheme.headline1,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              const SizedBox(width: 4),
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: AppColors.grey.shade100,
@@ -91,6 +96,7 @@ class _AddToCart extends State<AddToCart> {
               )
             ],
           ),
+          const SizedBox(height: 4),
           Text(
             'Bs ${widget._product.price}',
             style: Theme.of(context).textTheme.subtitle1,
