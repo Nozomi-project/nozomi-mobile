@@ -276,7 +276,7 @@ class DetailTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataTable(
-      columnSpacing: 32,
+      columnSpacing: 24,
       columns: const [
         DataColumn(label: Text('Cant.')),
         DataColumn(label: Text('Producto')),
@@ -287,7 +287,16 @@ class DetailTable extends StatelessWidget {
         return DataRow(
           cells: [
             DataCell(Text(detail.quantity.toString())),
-            DataCell(Text(detail.productName)),
+            DataCell(
+              SizedBox(
+                width: 100,
+                child: Text(
+                  detail.productName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
             DataCell(Text('Bs.${detail.unitPrice}')),
             DataCell(Text('Bs.${detail.subtotal}')),
           ],

@@ -72,16 +72,20 @@ class CartPage extends StatelessWidget {
 
           if (state.reservationRequestStatus == RequestStatus.inProgress) {
             showDialog<bool>(
+              barrierDismissible: false,
               context: context,
               builder: (context) {
-                return Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColors.white,
+                return WillPopScope(
+                  onWillPop: () async => false,
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.white,
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: const CircularProgressIndicator(),
                     ),
-                    padding: const EdgeInsets.all(12),
-                    child: const CircularProgressIndicator(),
                   ),
                 );
               },
@@ -102,8 +106,7 @@ class CartPage extends StatelessWidget {
                     color: AppColors.acadia,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -156,7 +159,7 @@ class _CartProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataTable(
       horizontalMargin: 0,
-      columnSpacing: 24,
+      columnSpacing: 20,
       columns: const [
         DataColumn(label: Text('Cant.')),
         DataColumn(label: Text('Producto')),
@@ -174,9 +177,14 @@ class _CartProductList extends StatelessWidget {
               ),
             ),
             DataCell(
-              Text(
-                detail.productName,
-                style: Theme.of(context).textTheme.subtitle2,
+              SizedBox(
+                width: 100,
+                child: Text(
+                  detail.productName,
+                  style: Theme.of(context).textTheme.subtitle2,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
             DataCell(
@@ -193,6 +201,7 @@ class _CartProductList extends StatelessWidget {
             ),
             DataCell(
               IconButton(
+                padding: EdgeInsets.zero,
                 icon: const Icon(
                   MdiIcons.close,
                   size: 20,

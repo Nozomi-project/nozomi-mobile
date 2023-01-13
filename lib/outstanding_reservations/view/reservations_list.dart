@@ -38,38 +38,41 @@ class ReservationsList extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Reserva en',
-                      style: Theme.of(context).textTheme.caption,
-                    ),
-                    Text(
-                      reservation.establishmentName,
-                      style: Theme.of(context).textTheme.headline2,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${reservation.productsCount} Productos por recoger',
-                    ),
-                    const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 8,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Reserva en',
+                        style: Theme.of(context).textTheme.caption,
                       ),
-                      decoration: BoxDecoration(
-                        color: AppColors.flushOrange.shade100,
-                        borderRadius: BorderRadius.circular(8),
+                      Text(
+                        reservation.establishmentName,
+                        style: Theme.of(context).textTheme.headline2,
                       ),
-                      child: Text(
-                        '''
-Hasta ${DateFormat('dd/MM/yyyy H:m').format(reservation.expirationDate!)} hrs.''',
+                      const SizedBox(height: 4),
+                      Text(
+                        '${reservation.productsCount} Productos por recoger',
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.flushOrange.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '''Hasta ${DateFormat('dd/MM/yyyy H:m').format(reservation.expirationDate!)} hrs.''',
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 4),
                 Text(
                   'Bs. ${reservation.total}',
                   style: Theme.of(context).textTheme.subtitle1,
