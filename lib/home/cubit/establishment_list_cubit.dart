@@ -13,6 +13,7 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
   EstablishmentListCubit() : super(const EstablishmentListState());
 
   StreamSubscription<QuerySnapshot<Establishment>>? _establishmentsSub;
+  List<StreamSubscription<QuerySnapshot<Product>>>? _productSubs;
   final Location _location = Location();
   final _establishmentsRef = FirebaseFirestore.instance
       .collection('establishment')
@@ -50,6 +51,10 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
     emit(state.copyWith(requestStatus: RequestStatus.inProgress));
     try {
       await _establishmentsSub?.cancel();
+      _productSubs?.forEach((element) async {
+        await element.cancel();
+      });
+      _productSubs = [];
 
       _establishmentsSub = _establishmentsRef.snapshots().listen(
         (event) async {
@@ -57,10 +62,12 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
           final establishments = <Establishment>[];
 
           for (final establishment in establishmentsTemp) {
-            final products = await _getProducts(establishment.id);
-            if (products.isEmpty) continue;
-
-            establishments.add(establishment.copyWith(products: products));
+            final productsStatic = await _getProducts(establishment.id);
+            if (productsStatic.isNotEmpty) {
+              establishments.add(
+                establishment.copyWith(products: productsStatic),
+              );
+            }
           }
 
           emit(
@@ -69,11 +76,68 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
               requestStatus: RequestStatus.completed,
             ),
           );
+
+          for (final establishment in establishmentsTemp) {
+            final productsRef = _getProductsReference(establishment.id);
+
+            final productsSub = productsRef.snapshots().listen((event) {
+              final products = event.docs
+                  .map((e) => e.data())
+                  .where((element) => element.stock > 0)
+                  .toList();
+
+              final mustAdd = products.isNotEmpty &&
+                  !state.establishments
+                      .any((element) => element.id == establishment.id);
+
+              final mustUpdate = products.isNotEmpty &&
+                  state.establishments
+                      .any((element) => element.id == establishment.id);
+
+              final mustRemove = products.isEmpty &&
+                  state.establishments
+                      .any((element) => element.id == establishment.id);
+
+              var establishmentsUpdated = [...state.establishments];
+
+              if (mustAdd) {
+                establishmentsUpdated.add(
+                  establishment.copyWith(products: products),
+                );
+              } else if (mustUpdate) {
+                establishmentsUpdated = establishmentsUpdated
+                    .where((element) => element.id != establishment.id)
+                    .toList()
+                  ..add(establishment.copyWith(products: products));
+              } else if (mustRemove) {
+                establishmentsUpdated = establishmentsUpdated
+                    .where((element) => element.id != establishment.id)
+                    .toList();
+              }
+
+              emit(state.copyWith(establishments: [...establishmentsUpdated]));
+            });
+
+            _productSubs?.add(productsSub);
+          }
         },
       );
     } catch (e) {
       emit(state.copyWith(requestStatus: RequestStatus.failed));
     }
+  }
+
+  CollectionReference<Product> _getProductsReference(
+    String establishmentId,
+  ) {
+    return _establishmentsRef
+        .doc(establishmentId)
+        .collection('product')
+        .withConverter<Product>(
+          fromFirestore: (snapshot, _) =>
+              Product.fromJson(snapshot.data()!, snapshot.id),
+          toFirestore: (product, _) => product.toJson(),
+        );
   }
 
   Future<List<Product>> _getProducts(
@@ -101,6 +165,10 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
 
     try {
       await _establishmentsSub?.cancel();
+      _productSubs?.forEach((element) async {
+        await element.cancel();
+      });
+      _productSubs?.clear();
 
       _establishmentsRef.snapshots().listen(
         (event) async {
@@ -108,7 +176,17 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
           final establishments = <Establishment>[];
 
           for (final establishment in establishmentsTemp) {
-            final products = await _getProducts(establishment.id);
+            var products = <Product>[];
+            final productsRef = _getProductsReference(establishment.id);
+            _productSubs?.add(
+              productsRef.snapshots().listen((event) {
+                products = event.docs
+                    .map((e) => e.data())
+                    .where((element) => element.stock > 0)
+                    .toList();
+              }),
+            );
+
             if (products.isEmpty) continue;
 
             if (establishment.name

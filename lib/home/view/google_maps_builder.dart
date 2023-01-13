@@ -61,6 +61,9 @@ class _GoogleMapsViewState extends State<_GoogleMapsView> {
       zoom: 13,
     );
 
+    final establishments =
+        context.watch<EstablishmentListCubit>().state.establishments;
+
     return BlocListener<EstablishmentListCubit, EstablishmentListState>(
       listener: (context, state) async {
         final controller = await _controller.future;
@@ -69,7 +72,7 @@ class _GoogleMapsViewState extends State<_GoogleMapsView> {
         );
       },
       child: FutureBuilder(
-        future: _getmarkers(context),
+        future: _getmarkers(establishments),
         builder: (context, AsyncSnapshot<Set<Marker>> snapshot) {
           if (snapshot.hasData) {
             final markers = snapshot.data!;
@@ -88,11 +91,7 @@ class _GoogleMapsViewState extends State<_GoogleMapsView> {
     );
   }
 
-  Future<Set<Marker>> _getmarkers(BuildContext context) async {
-    final establishments =
-        context.select<EstablishmentListCubit, List<Establishment>>(
-      (value) => value.state.establishments,
-    );
+  Future<Set<Marker>> _getmarkers(List<Establishment> establishments) async {
     final markers = <Marker>{};
     for (final e in establishments) {
       await markers.addLabelMarker(
