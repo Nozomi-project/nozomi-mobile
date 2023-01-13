@@ -44,9 +44,7 @@ class _EstablishmentsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final establishments =
-        context.select<EstablishmentListCubit, List<Establishment>>(
-      (value) => value.state.establishments,
-    );
+        context.watch<EstablishmentListCubit>().state.establishments;
 
     return Expanded(
       child: RefreshIndicator(

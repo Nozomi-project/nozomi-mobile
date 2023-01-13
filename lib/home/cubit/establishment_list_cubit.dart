@@ -62,50 +62,60 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
           final establishments = <Establishment>[];
 
           for (final establishment in establishmentsTemp) {
-            var products = <Product>[];
+            final productsStatic = await _getProducts(establishment.id);
+            if (productsStatic.isNotEmpty) {
+              establishments.add(
+                establishment.copyWith(products: productsStatic),
+              );
+            }
+          }
+
+          emit(
+            state.copyWith(
+              establishments: establishments,
+              requestStatus: RequestStatus.completed,
+            ),
+          );
+
+          for (final establishment in establishmentsTemp) {
             final productsRef = _getProductsReference(establishment.id);
+
             final productsSub = productsRef.snapshots().listen((event) {
-              products = event.docs
+              final products = event.docs
                   .map((e) => e.data())
                   .where((element) => element.stock > 0)
                   .toList();
 
               final mustAdd = products.isNotEmpty &&
-                  !establishments
+                  !state.establishments
                       .any((element) => element.id == establishment.id);
 
               final mustUpdate = products.isNotEmpty &&
-                  establishments
+                  state.establishments
                       .any((element) => element.id == establishment.id);
 
+              final mustRemove = products.isEmpty &&
+                  state.establishments
+                      .any((element) => element.id == establishment.id);
+
+              var establishmentsUpdated = [...state.establishments];
+
               if (mustAdd) {
-                establishments.add(
+                establishmentsUpdated.add(
                   establishment.copyWith(products: products),
                 );
-
-                emit(
-                  state.copyWith(
-                    establishments: establishments,
-                    requestStatus: RequestStatus.completed,
-                  ),
-                );
               } else if (mustUpdate) {
-                final establishmentsUpdated = establishments
+                establishmentsUpdated = establishmentsUpdated
                     .where((element) => element.id != establishment.id)
                     .toList()
                   ..add(establishment.copyWith(products: products));
-
-                establishments
-                  ..clear()
-                  ..addAll(establishmentsUpdated);
-
-                emit(
-                  state.copyWith(
-                    establishments: establishmentsUpdated,
-                    requestStatus: RequestStatus.completed,
-                  ),
-                );
+              } else if (mustRemove) {
+                establishmentsUpdated = establishmentsUpdated
+                    .where((element) => element.id != establishment.id)
+                    .toList();
               }
+
+              emit(state.copyWith(establishments: [...establishmentsUpdated]));
             });
 
             _productSubs?.add(productsSub);
@@ -128,6 +138,25 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
               Product.fromJson(snapshot.data()!, snapshot.id),
           toFirestore: (product, _) => product.toJson(),
         );
+  }
+
+  Future<List<Product>> _getProducts(
+    String establishmentId,
+  ) async {
+    final snapshot = await _establishmentsRef
+        .doc(establishmentId)
+        .collection('product')
+        .withConverter<Product>(
+          fromFirestore: (snapshot, _) =>
+              Product.fromJson(snapshot.data()!, snapshot.id),
+          toFirestore: (product, _) => product.toJson(),
+        )
+        .get();
+
+    return snapshot.docs
+        .map((e) => e.data())
+        .where((element) => element.stock > 0)
+        .toList();
   }
 
   Future<void> searchEstablishments(String criteria) async {
