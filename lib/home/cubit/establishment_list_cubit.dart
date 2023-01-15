@@ -25,6 +25,10 @@ class EstablishmentListCubit extends Cubit<EstablishmentListState> {
         toFirestore: (establishments, _) => establishments.toJson(),
       );
 
+  void changeMapFullscreenMode() {
+    emit(state.copyWith(showMapOnFullscreen: !state.showMapOnFullscreen));
+  }
+
   Future<void> verifyLocationPermission() async {
     var serviceEnabled = await _location.serviceEnabled();
     if (!serviceEnabled) {

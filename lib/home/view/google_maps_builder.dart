@@ -76,6 +76,9 @@ class _GoogleMapsViewState extends State<_GoogleMapsView> {
           if (snapshot.hasData) {
             final markers = snapshot.data!;
             return GoogleMap(
+              onTap: (_) => context
+                  .read<EstablishmentListCubit>()
+                  .changeMapFullscreenMode(),
               markers: markers,
               onMapCreated: _onMapCreated,
               initialCameraPosition: cameraPosition,
