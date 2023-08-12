@@ -21,17 +21,17 @@ dependencies:
   formz: ^0.4.1
   google_fonts: ^5.1.0
   google_maps_flutter: ^2.2.1
+  intl: ^0.18.1
+  label_marker: ^1.0.1
   location: ^5.0.3
   material_design_icons_flutter: ^7.0.7296
   models:
     path: packages/models
   permission_handler: ^10.2.0
   qr_flutter: ^4.0.0
-  url_launcher: ^6.1.6
   sliding_up_panel: ^2.0.0+1
-  label_marker: ^1.0.1
+  url_launcher: ^6.1.6
   very_good_analysis: ^5.0.0+1
-  intl: ^0.18.1
 
 dev_dependencies:
   bloc_test: ^9.1.0

@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mikhuy/theme/theme.dart';
+
+part 'text_theme.dart';
 
 /// Official theme, containing text theme
 /// and individual components theme
 class AppTheme {
-  /// Text theme for light mode, currently the only mode.
-  /// Dark text on light surface
-  static TextTheme get lightTextTheme {
-    return TextTheme(
-      headline1: AppTextStyle.headline1,
-      headline2: AppTextStyle.headline2,
-      subtitle1: AppTextStyle.subtitle1,
-      subtitle2: AppTextStyle.subtitle2,
-      bodyText1: AppTextStyle.body,
-      button: AppTextStyle.button,
-      caption: AppTextStyle.caption,
-      overline: AppTextStyle.overline,
-    );
-  }
-
   /// Theme on light mode, currently the only mode.
   /// Applies to colors and individual components.
   static ThemeData get light {
     return ThemeData(
-      textTheme: lightTextTheme,
+      useMaterial3: true,
+      textTheme: _textTheme,
 
       /// Sets the default size of icons to 32
       iconTheme: const IconThemeData(size: 32),
@@ -45,7 +34,7 @@ class AppTheme {
           size: 32,
           color: AppColors.grey.shade300,
         ),
-        toolbarTextStyle: lightTextTheme.headline2,
+        toolbarTextStyle: _textTheme.titleLarge,
       ),
 
       /// Sets the default shape, colors, elevation and padding
@@ -83,41 +72,41 @@ class AppTheme {
       /// Sets the default style of text fields to match
       /// the design. Mainly removes borders and applies a
       /// circular border radius to corners.
-      inputDecorationTheme: InputDecorationTheme(
-        floatingLabelStyle: AppTextStyle.headline2.copyWith(
-          color: AppColors.flushOrange.shade700,
-        ),
-        labelStyle: AppTextStyle.subtitle2.copyWith(
-          color: AppColors.grey.shade700,
-        ),
-        errorStyle: AppTextStyle.overline.copyWith(
-          color: AppColors.danger,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.flushOrange.shade300),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.flushOrange.shade500),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.danger),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColors.danger),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: 16,
-        ),
-        suffixIconColor: AppColors.grey.shade900,
-        hintStyle: AppTextStyle.subtitle1.copyWith(
-          color: AppColors.grey.shade700,
-        ),
-      ),
+      // inputDecorationTheme: InputDecorationTheme(
+      //   floatingLabelStyle: AppTextStyle.headline2.copyWith(
+      //     color: AppColors.flushOrange.shade700,
+      //   ),
+      //   labelStyle: AppTextStyle.subtitle2.copyWith(
+      //     color: AppColors.grey.shade700,
+      //   ),
+      //   errorStyle: AppTextStyle.overline.copyWith(
+      //     color: AppColors.danger,
+      //   ),
+      //   enabledBorder: OutlineInputBorder(
+      //     borderSide: BorderSide(color: AppColors.flushOrange.shade300),
+      //     borderRadius: BorderRadius.circular(4),
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderSide: BorderSide(color: AppColors.flushOrange.shade500),
+      //     borderRadius: BorderRadius.circular(4),
+      //   ),
+      //   focusedErrorBorder: OutlineInputBorder(
+      //     borderSide: const BorderSide(color: AppColors.danger),
+      //     borderRadius: BorderRadius.circular(4),
+      //   ),
+      //   errorBorder: OutlineInputBorder(
+      //     borderSide: const BorderSide(color: AppColors.danger),
+      //     borderRadius: BorderRadius.circular(4),
+      //   ),
+      //   contentPadding: const EdgeInsets.symmetric(
+      //     vertical: 16,
+      //     horizontal: 16,
+      //   ),
+      //   suffixIconColor: AppColors.grey.shade900,
+      //   hintStyle: AppTextStyle.subtitle1.copyWith(
+      //     color: AppColors.grey.shade700,
+      //   ),
+      // ),
 
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.white,
