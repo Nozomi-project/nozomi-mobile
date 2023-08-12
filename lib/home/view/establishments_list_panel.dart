@@ -69,7 +69,7 @@ class _PanelContent extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 MdiIcons.information,
                 size: 16,
                 color: AppColors.acadia,

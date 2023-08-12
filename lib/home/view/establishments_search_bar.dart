@@ -104,7 +104,7 @@ class ConfirmLogOutAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ConfirmationAlertDialog(
-      title: const Icon(MdiIcons.exclamation),
+      title: Icon(MdiIcons.exclamation),
       content: const Text('¿Está seguro/a de cerrar sesión?'),
       confirmButtonContent: const Text('Volver atrás'),
       onConfirmPressed: () {

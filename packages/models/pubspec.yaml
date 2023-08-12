@@ -4,10 +4,10 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.18.0 <=3.0.0"
 
 dependencies:
-  cloud_firestore: ^3.5.1
+  cloud_firestore: ^4.8.4
   equatable: ^2.0.3
   flutter:
     sdk: flutter

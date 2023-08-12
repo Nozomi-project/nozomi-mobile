@@ -33,7 +33,7 @@ class CartPage extends StatelessWidget {
           onPressed: () => {
             Navigator.of(context).pop(),
           },
-          icon: const Icon(MdiIcons.arrowLeft),
+          icon: Icon(MdiIcons.arrowLeft),
         ),
       ),
       body: BlocListener<ProductsListCubit, ProductsListState>(
@@ -133,9 +133,9 @@ class CartPage extends StatelessWidget {
                       style: AppTheme.secondaryButton,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(MdiIcons.check),
-                          Text('CREAR RESERVA'),
+                          const Text('CREAR RESERVA'),
                         ],
                       ),
                     ),
@@ -202,7 +202,7 @@ class _CartProductList extends StatelessWidget {
             DataCell(
               IconButton(
                 padding: EdgeInsets.zero,
-                icon: const Icon(
+                icon: Icon(
                   MdiIcons.close,
                   size: 20,
                 ),

@@ -226,7 +226,7 @@ class _GenreInputState extends State<_GenreInput> {
             DropdownButton<String>(
               key: const Key('signUpForm_genreInput_dropdown'),
               value: value,
-              icon: const Icon(MdiIcons.chevronDown),
+              icon: Icon(MdiIcons.chevronDown),
               isExpanded: true,
               style: Theme.of(context).textTheme.caption,
               elevation: 4,

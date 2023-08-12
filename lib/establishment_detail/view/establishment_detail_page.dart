@@ -82,11 +82,11 @@ class _EstablishmentDetailView extends StatelessWidget {
                 Navigator.of(context).pop();
               }
             },
-            icon: const Icon(MdiIcons.arrowLeft),
+            icon: Icon(MdiIcons.arrowLeft),
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: const Icon(MdiIcons.cart),
+          child: Icon(MdiIcons.cart),
           onPressed: () {
             Navigator.push(
               context,
@@ -113,7 +113,7 @@ class _EstablishmentDetailView extends StatelessWidget {
                       onTap: () => _launchURL(establishment),
                       child: Row(
                         children: [
-                          const Icon(MdiIcons.mapMarkerOutline),
+                          Icon(MdiIcons.mapMarkerOutline),
                           Text(
                             establishment.address,
                             style: Theme.of(context)
@@ -199,7 +199,7 @@ class _EstablishmentDetailView extends StatelessWidget {
 
   ConfirmationAlertDialog _getGoBackAlert(BuildContext context) {
     return ConfirmationAlertDialog(
-      title: const Icon(MdiIcons.exclamation),
+      title: Icon(MdiIcons.exclamation),
       content: const Text(
         '''
 Tiene una reserva en proceso, se cancelará si sale del establecimiento.

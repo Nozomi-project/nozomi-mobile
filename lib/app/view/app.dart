@@ -2,10 +2,8 @@ import 'package:authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mikhuy/app/app.dart';
 import 'package:mikhuy/home/home.dart';
-import 'package:mikhuy/l10n/l10n.dart';
 import 'package:mikhuy/sign_in/sign_in.dart';
 import 'package:mikhuy/theme/theme.dart';
 
@@ -43,11 +41,6 @@ class AppView extends StatelessWidget {
 
     return MaterialApp(
       theme: AppTheme.light,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
       home: BlocBuilder<AppBloc, AppState>(
         builder: (context, state) {

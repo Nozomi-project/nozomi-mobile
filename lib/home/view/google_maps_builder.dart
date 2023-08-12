@@ -8,7 +8,6 @@ import 'package:mikhuy/establishment_detail/view/establishment_detail_page.dart'
 import 'package:mikhuy/home/cubit/establishment_list_cubit.dart';
 import 'package:mikhuy/shared/enums/request_status.dart';
 import 'package:mikhuy/theme/app_colors.dart';
-import 'package:models/establishment.dart';
 
 class GoogleMapsBuilder extends StatelessWidget {
   const GoogleMapsBuilder({super.key});

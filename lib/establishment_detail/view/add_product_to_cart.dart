@@ -71,7 +71,7 @@ class _AddToCart extends State<AddToCart> {
                           if (canDecreaseQuantity(_counter)) _counter--;
                         });
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         MdiIcons.minus,
                         color: AppColors.acadia,
                       ),
@@ -86,7 +86,7 @@ class _AddToCart extends State<AddToCart> {
                           )) _counter++;
                         });
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         MdiIcons.plus,
                         color: AppColors.acadia,
                       ),

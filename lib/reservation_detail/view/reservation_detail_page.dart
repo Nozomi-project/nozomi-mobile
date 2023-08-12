@@ -35,7 +35,7 @@ class ReservationDetailPage extends StatelessWidget {
                 },
               );
             },
-            icon: const Icon(MdiIcons.cancel),
+            icon: Icon(MdiIcons.cancel),
             color: AppColors.grey.shade700,
           )
         ],
@@ -186,7 +186,7 @@ class _ReservationDetailView extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     MdiIcons.mapMarkerOutline,
                     size: 24,
                   ),
@@ -244,7 +244,7 @@ class _ReservationDetailView extends StatelessWidget {
               const SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: QrImage(
+                child: QrImageView(
                   data: reservation.id,
                 ),
               ),
